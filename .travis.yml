@@ -10,7 +10,7 @@ install:
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 language: node_js
- - node_js: "12"
+# - node_js: "12"
 script:
  - npm install
  - if [ "$TRAVIS_OS_NAME" = "windows" || "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-windows; fi
