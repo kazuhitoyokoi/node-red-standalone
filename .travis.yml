@@ -7,13 +7,16 @@ install:
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 language: node_js
-  - node_js: "12"
-script:
- - npm install
- - npm run build-windows
- - npm run build-linux
- - npm run build-raspberrypi
- - npm run build-macos
+matrix:
+  include:
+    - node_js: "12"
+    - node_js: "10"
+      script:
+       - npm install
+       - npm run build-windows
+       - npm run build-linux
+       - npm run build-raspberrypi
+       - npm run build-macos
 deploy:
   provider: releases
   api_key: "GITHUB OAUTH TOKEN"
