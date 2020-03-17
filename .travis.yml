@@ -1,17 +1,23 @@
 os: osx
 language: node_js
-node_js:
-  - "12"
-  - "10"
-  - "8"
-  
 addons:
   apt:
     packages:
       - xvfb
-
 install:
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-
-npm run build
+script:
+  - npm run build-windows
+  - npm run build-linux
+  - npm run build-raspberrypi
+  - npm run build-macos
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file:
+    - ./dist/*.exe
+    - ./dist/*.AppImage
+    - ./dist/*.dmg
+  skip_cleanup: true
+  draft: true

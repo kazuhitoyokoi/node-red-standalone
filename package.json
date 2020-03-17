@@ -3,10 +3,13 @@
   "version": "0.0.1",
   "main": "main.js",
   "build": {
-    "appId": "your.id",
+    "appId": "com.electron.node-red",
     "productName": "Node-RED",
+    "linux": {
+      "category": "Development"
+    },
     "mac": {
-      "category": "your.app.category.type"
+      "category": "public.app-category.developer-tools"
     }
   },
   "scripts": {
@@ -40,7 +43,6 @@
     "node-red-node-redis": "0.0.5",
     "node-red-node-sentiment": "^0.1.6",
     "node-red-node-smooth": "^0.1.2",
-    "node-red-node-sqlite": "^0.4.2",
     "node-red-node-swagger": "^0.1.9",
     "node-red-node-tail": "^0.1.1",
     "node-red-node-twitter": "^1.1.6",
