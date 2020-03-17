@@ -12,6 +12,7 @@ matrix:
     - node_js: "12"
       script:
        - brew update
+       - brew upgrade
        - npm install
        - npm run build-windows
        - npm run build-linux
