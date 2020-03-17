@@ -84,7 +84,7 @@ RED.start().then(function () {
     }
 });
 
-//autoUpdater.setFeedURL('http://localhost:1880/update');
-//autoUpdater.checkForUpdates();
+autoUpdater.setFeedURL('https://raw.githubusercontent.com/kazuhitoyokoi/node-red-standalone/master/autoupdater.json');
+autoUpdater.checkForUpdates();
 
 crashReporter.start({ companyName: 'YourCompany', submitURL: 'https://your-domain.com/url-to-submit', uploadToServer: true });
