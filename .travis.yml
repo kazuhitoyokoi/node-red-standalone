@@ -11,6 +11,7 @@ matrix:
   include:
     - node_js: "12"
       script:
+       - brew update
        - npm install
        - npm run build-windows
        - npm run build-linux
