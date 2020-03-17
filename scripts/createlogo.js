@@ -8,7 +8,7 @@ var settings = [
         to: path.join(__dirname, '../build/icon.svg')
     }, {
         from: 'https://nodered.org/about/resources/media/node-red-icon.png',
-        to: path.join(__dirname, '../build/icon.png')
+        to: path.join(__dirname, '../build/icon.png.tmp')
     }
 ];
 
