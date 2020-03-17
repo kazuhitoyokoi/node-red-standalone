@@ -19,12 +19,12 @@ matrix:
        - npm run build-linux
        - npm run build-raspberrypi
        - if [ "$TRAVIS_OS_NAME" = "osx" ]; then npm run build-macos; fi
-deploy:
-  provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
-  file:
-    - ./dist/*.exe
-    - ./dist/*.AppImage
-    - ./dist/*.dmg
-  skip_cleanup: true
-  draft: true
+#deploy:
+#  provider: releases
+#  api_key: "GITHUB OAUTH TOKEN"
+#  file:
+#    - ./dist/*.exe
+#    - ./dist/*.AppImage
+#    - ./dist/*.dmg
+#  skip_cleanup: true
+#  draft: true
