@@ -7,21 +7,17 @@ matrix:
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
     - os: linux
       services: docker
       language: generic
-addons:
-  apt:
-    packages:
-      - xvfb
-install:
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
 cache:
   directories:
     - node_modules
     - $HOME/.cache/electron
     - $HOME/.cache/electron-builder
+
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
@@ -37,6 +33,7 @@ script:
     fi
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
+
 branches:
   except:
     - "/^v\\d+\\.\\d+\\.\\d+$/"
