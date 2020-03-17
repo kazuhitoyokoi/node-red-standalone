@@ -14,10 +14,7 @@ node_js:
  - 12
 script:
  - npm install
- - if [ "$TRAVIS_OS_NAME" = "windows" ]; then npm run build-windows; fi
- - if [ "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-linux; fi
- - if [ "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-raspberrypi; fi
- - if [ "$TRAVIS_OS_NAME" = "osx" ]; then npm run build-macos; fi
+ - npm run build
 deploy:
   provider: releases
   api_key: "GITHUB OAUTH TOKEN"
