@@ -1,4 +1,7 @@
-os: osx
+os:
+  - windows
+  - linux
+  - osx
 addons:
   apt:
     packages:
@@ -12,9 +15,10 @@ matrix:
     - node_js: "12"
       script:
        - npm install
+       - if [ "$TRAVIS_OS_NAME" = "windows" || "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-windows; fi
        - npm run build-linux
        - npm run build-raspberrypi
-       - npm run build-macos
+       - if [ "$TRAVIS_OS_NAME" = "osx" ]; then npm run build-macos; fi
 deploy:
   provider: releases
   api_key: "GITHUB OAUTH TOKEN"
