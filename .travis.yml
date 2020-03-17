@@ -12,7 +12,8 @@ install:
 language: node_js
 node_js:
  - 12
- script:
+ - 10
+script:
  - npm install
  - if [ "$TRAVIS_OS_NAME" = "windows" || "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-windows; fi
  - npm run build-linux
