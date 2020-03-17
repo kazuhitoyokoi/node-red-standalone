@@ -15,7 +15,8 @@ node_js:
  - 10
 script:
  - npm install
- - if [ "$TRAVIS_OS_NAME" = "windows" || "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-windows; fi
+ - if [ "$TRAVIS_OS_NAME" = "windows" ]; then npm run build-windows; fi
+ - if [ "$TRAVIS_OS_NAME" = "linux" ]; then npm run build-windows; fi
  - npm run build-linux
  - npm run build-raspberrypi
  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then npm run build-macos; fi
