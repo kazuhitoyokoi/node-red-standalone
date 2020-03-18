@@ -12,6 +12,8 @@ install:
 language: node_js
 node_js:
  - 12
+before_script:
+ - sudo snap install snapcraft --classic
 script:
  - npm install
  - npm run release
