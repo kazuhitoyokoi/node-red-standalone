@@ -40,7 +40,7 @@ function createWindow() {
     win.maximize();
     var template = [{
         label: 'Node-RED',
-        submenu: [ { role: 'about' }, { role: 'quit' } ]
+        submenu: [ { label: 'About', role: 'about' }, { label: 'Quit', role: 'quit' } ]
     }, {
         label: 'View',
         submenu: [ { role: 'reload', accelerator: 'F5' }, { type: 'separator' },
