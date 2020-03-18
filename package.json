@@ -14,11 +14,11 @@
   },
   "scripts": {
     "start": "electron .",
-    "build": "node scripts/createlogo.js && electron-builder .",
-    "build-windows": "node scripts/createlogo.js && electron-builder --windows",
-    "build-linux": "node scripts/createlogo.js && electron-builder --linux",
-    "build-raspberrypi": "node scripts/createlogo.js && electron-builder --linux --armv7l",
-    "build-macos": "node scripts/createlogo.js && electron-builder --macos"
+    "build": "node geticon.js && electron-builder .",
+    "build-windows": "node geticon.js && electron-builder --windows",
+    "build-linux": "node geticon.js && electron-builder --linux",
+    "build-raspberrypi": "node geticon.js && electron-builder --linux --armv7l",
+    "build-macos": "node geticon.js && electron-builder --macos"
   },
   "dependencies": {
     "@node-red-contrib-themes/midnight-red": "^1.2.1",
@@ -57,7 +57,7 @@
     "electron-builder": "^22.4.1",
     "electron-chromedriver": "^8.0.0",
     "grunt": "^1.0.4",
-    "request": "^2.88.2",
+    "puppeteer": "^2.1.1",
     "webdriverio": "^5.21.0"
   },
   "description": "Standalone Node-RED",
