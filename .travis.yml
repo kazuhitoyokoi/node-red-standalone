@@ -14,7 +14,7 @@ node_js:
  - 12
 script:
  - npm install
- - npm run build
+ - npm run release
 
 # - npm install
 # - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker run -c "npm install && npm run build-windows"; fi
