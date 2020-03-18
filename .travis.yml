@@ -15,15 +15,6 @@ node_js:
 script:
  - npm install
  - npm run build
-deploy:
-  provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
-  file:
-    - ./dist/*.exe
-    - ./dist/*.AppImage
-    - ./dist/*.dmg
-  skip_cleanup: true
-#  draft: true
 
 # - npm install
 # - if [ "$TRAVIS_OS_NAME" = "linux" ]; then docker run -c "npm install && npm run build-windows"; fi
