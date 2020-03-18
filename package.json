@@ -14,8 +14,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "build": "node geticon.js && electron-builder .",
-    "release": "node geticon.js && electron-builder . --publish always",
+    "build": "node geticon.js && electron-builder . --publish always",
     "build-windows": "node geticon.js && electron-builder --windows",
     "build-linux": "node geticon.js && electron-builder --linux",
     "build-raspberrypi": "node geticon.js && electron-builder --linux --armv7l",
