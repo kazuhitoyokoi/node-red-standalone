@@ -7,6 +7,7 @@ var argv = require('minimist')(process.argv.slice(1));
 var RED = require('node-red');
 var util = require('@node-red/util').util;
 var port = argv.port || argv.p || 1880;
+
 var settings = {
     httpNodeRoot: '/',
     contextStorage: { memory: { module: 'memory' }, filesystem: { module: 'localfilesystem' } },
@@ -14,6 +15,13 @@ var settings = {
 };
 if (nativeTheme.shouldUseDarkColors) {
     settings.editorTheme.page = { css: path.join(__dirname, 'node_modules/@node-red-contrib-themes/midnight-red/theme.css') };
+}
+if (argv.production) {
+    settings.httpAdminRoot = false;
+} else if (argv.development) {
+    settings.httpAdminRoot = '/';
+} else {
+    settings.httpAdminRoot = '/' + util.generateId();
 }
 
 var createWindow = function () {
@@ -73,21 +81,12 @@ var createWindow = function () {
 if (!app.requestSingleInstanceLock()) {
     app.quit();
 } else {
-    if (argv.production) {
-        settings.httpAdminRoot = false;
-    } else if (argv.development) {
-        settings.httpAdminRoot = '/';
-    } else {
-        settings.httpAdminRoot = '/' + util.generateId();
-    }
-
     RED.init(server, settings);
     if (!argv.production) {
         expapp.use(settings.httpAdminRoot, RED.httpAdmin);
     }
     expapp.use(settings.httpNodeRoot, RED.httpNode);
     server.listen(port);
-
     RED.start().then(function () {
         'use strict';
         if (!argv.development && !argv.production) {
@@ -120,6 +119,5 @@ if (!app.requestSingleInstanceLock()) {
             console.log('before-quit-for-update');
         });
     }
-
     crashReporter.start({ companyName: 'YourCompany', submitURL: 'https://your-domain.com/url-to-submit', uploadToServer: true });
 }
