@@ -13,7 +13,7 @@
 - export DISPLAY=':99.0'
 - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 - chmod +x Node-RED-0.0.1.AppImage
-- ./Node-RED-0.0.1.AppImage --devepment
+- ./Node-RED-0.0.1.AppImage --development
   -> Access http://localhost:1880 using web browser
 
 ## For developers
@@ -24,7 +24,7 @@
 - npm install
 - npm run build
 - npm start
-- npm start -- --devepment
+- npm start -- --development
 - npm start -- --production
 - npm start -- --dashboard
 - npm start -- --kiosk
