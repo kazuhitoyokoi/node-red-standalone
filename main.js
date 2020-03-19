@@ -36,7 +36,7 @@ server.listen(port);
 function createWindow() {
     'use strict';
     Menu.setApplicationMenu(new Menu());
-    var win = new BrowserWindow({ titleBarStyle: 'hidden', frame: (process.platform !== 'darwin') });
+    var win = new BrowserWindow({ titleBarStyle: 'hidden', frame: (process.platform !== 'darwin'), kiosk: argv.kiosk });
     win.maximize();
     var template = [{
         label: 'Node-RED',
@@ -71,10 +71,6 @@ function createWindow() {
 
     if (argv.dashboard) {
         win.loadURL('http://localhost:' + port + '/ui');
-    } else if (argv.worldmap) {
-        setTimeout(function () {
-            win.loadURL('http://localhost:' + port + '/worldmap');
-        }, 1000);
     } else {
         win.webContents.on('did-finish-load', function () {
             win.webContents.insertCSS('#red-ui-header { -webkit-app-region: drag; }');
