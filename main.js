@@ -12,6 +12,9 @@ var settings = {
     contextStorage: { memory: { module: 'memory' }, filesystem: { module: 'localfilesystem' } },
     editorTheme: { projects: { enabled: true } }
 };
+if (nativeTheme.shouldUseDarkColors) {
+    settings.editorTheme.page = { css: path.join(__dirname, 'node_modules/@node-red-contrib-themes/midnight-red/theme.css') };
+}
 
 var createWindow = function () {
     'use strict';
@@ -70,10 +73,6 @@ var createWindow = function () {
 if (!app.requestSingleInstanceLock()) {
     app.quit();
 } else {
-    if (nativeTheme.shouldUseDarkColors) {
-        settings.editorTheme.page = { css: path.join(__dirname, 'node_modules/@node-red-contrib-themes/midnight-red/theme.css') };
-    }
-
     if (argv.production) {
         settings.httpAdminRoot = false;
     } else if (argv.development) {
