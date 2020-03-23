@@ -18,7 +18,6 @@
 ### Ubuntu
 - sudo apt update
 - sudo apt install -y libx11-xcb-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxi6 ibgdk-pixbuf2.0-0 libgtk-3-0 libasound2 xvfb
-- sudo apt install -y libappindicator1
 - export DISPLAY=':99.0'
 - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 - chmod +x Node-RED-0.0.1.AppImage
