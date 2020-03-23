@@ -1,15 +1,22 @@
+var fs = require('fs');
 var path = require('path');
 var http = require('http');
 var expapp = require('express')();
 var server = http.createServer(expapp);
-var { app, BrowserWindow, shell, Menu, Tray, nativeTheme, autoUpdater, crashReporter } = require('electron');
 var argv = require('minimist')(process.argv.slice(1));
+var superagent = require('superagent');
 var RED = require('node-red');
 var util = require('@node-red/util').util;
-var port = argv.port || argv.p || 1880;
+var { app, BrowserWindow, shell, Menu, Tray, nativeTheme, powerSaveBlocker, crashReporter } = require('electron');
+var update = require('update-electron-app');
+var log = require('electron-log');
+Object.assign(console, log.functions);
+if (!argv.noupdate) { update({ logger: log }); }
 
+var port = argv.port || argv.p || 1880;
 var settings = {
     httpNodeRoot: '/',
+    flowFilePretty: true,
     contextStorage: { memory: { module: 'memory' }, filesystem: { module: 'localfilesystem' } },
     editorTheme: { projects: { enabled: true } }
 };
@@ -24,10 +31,29 @@ if (argv.production) {
     settings.httpAdminRoot = '/' + util.generateId();
 }
 
+var win;
+var notifyUpdate = function () {
+    var packageInfo = fs.readFileSync('./package.json');
+    var packageVersion = JSON.parse(packageInfo).version;
+    var url = 'https://api.github.com/repos/node-red/node-red-nodegen/releases/latest';
+    superagent.get(url).set('User-Agent', "Node-RED").end(function (err, res) {
+        if (!err) {
+            var tag_name = JSON.parse(res.text).tag_name;
+            if (tag_name !== packageVersion) {
+                var message = 'New version ' + tag_name + ' has been released.';
+                var button = 'Download';
+                var url = 'https://github.com/kazuhitoyokoi/node-red-standalone/releases';
+                var code = 'RED.notify("' + message + '",{buttons:[{text:"' + button + '",class:"primary",click:function(){window.open("' + url + '")}}]})';
+                win.webContents.executeJavaScript(code);
+            } else { console.log('no update: ' + tag_name); }
+        } else { console.log(err); }
+    });
+};
+
 var createWindow = function () {
-    'use strict';
     Menu.setApplicationMenu(new Menu());
-    var win = new BrowserWindow({ titleBarStyle: 'hidden', frame: (process.platform !== 'darwin'), kiosk: argv.kiosk });
+    win = new BrowserWindow({ titleBarStyle: 'hidden', frame: (process.platform !== 'darwin'), kiosk: argv.kiosk });
+    if (argv.kiosk) { powerSaveBlocker.start('prevent-display-sleep'); }
     win.maximize();
     var template = [{
         label: 'Node-RED',
@@ -39,14 +65,9 @@ var createWindow = function () {
     }, {
         label: 'Window',
         submenu: [{
-            label: 'Toggle Maximize',
-            accelerator: 'F9',
+            label: 'Toggle Maximize', accelerator: 'F9',
             click: function () {
-                if (win.isMaximized()) {
-                    win.setSize(800, 600);
-                } else {
-                    win.maximize();
-                }
+                if (win.isMaximized()) { win.setSize(800, 600); } else { win.maximize(); }
             }
         },
             { role: 'togglefullscreen', accelerator: 'F11' },
@@ -54,26 +75,22 @@ var createWindow = function () {
     }];
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
     win.setMenuBarVisibility(false);
-
     win.webContents.on('new-window', function (event, url) {
         event.preventDefault();
         shell.openExternal(url);
     });
-
     if (argv.dashboard) {
         win.loadURL('http://localhost:' + port + '/ui');
     } else {
         win.webContents.on('did-finish-load', function () {
             win.webContents.insertCSS('#red-ui-header { -webkit-app-region: drag; }');
             win.webContents.insertCSS('#red-ui-header > ul { -webkit-app-region: no-drag; }');
+            setTimeout(notifyUpdate, 10000);
         });
         win.loadURL('http://localhost:' + port + settings.httpAdminRoot);
     }
-
     app.on('second-instance', function () {
-        if (win.isMinimized()) {
-            win.restore();
-        }
+        if (win.isMinimized()) { win.restore(); }
         win.focus();
     });
 };
@@ -82,42 +99,21 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 } else {
     RED.init(server, settings);
-    if (!argv.production) {
-        expapp.use(settings.httpAdminRoot, RED.httpAdmin);
-    }
+    if (!argv.production) { expapp.use(settings.httpAdminRoot, RED.httpAdmin); }
     expapp.use(settings.httpNodeRoot, RED.httpNode);
     server.listen(port);
     RED.start().then(function () {
-        'use strict';
         if (!argv.development && !argv.production) {
             app.whenReady().then(createWindow);
+        } else {
+            var tray = new Tray('build/icon@2x.png');
+            var template = [{ label: 'Quit', role: 'quit' }];
+            if (argv.development) {
+                template.unshift({ label: 'Node-RED', click: function () { shell.openExternal('http://localhost:' + port); } });
+            }
+            tray.setContextMenu(Menu.buildFromTemplate(template));
+            if (process.platform === 'darwin') { app.dock.hide(); }
         }
     });
-
-    if (process.platform === 'windows') {
-        autoUpdater.setFeedURL('https://raw.githubusercontent.com/kazuhitoyokoi/node-red-standalone/master/autoupdater.json');
-        setInterval(function () {
-            console.log('checkForUpdates()');
-            autoUpdater.checkForUpdates();
-        }, 1000);
-        autoUpdater.on('error', function (error) {
-            console.log('error: ' + error);
-        });
-        autoUpdater.on('checking-for-update', function () {
-            console.log('checking-for-update');
-        });
-        autoUpdater.on('update-available', function () {
-            console.log('update-available');
-        });
-        autoUpdater.on('update-not-available', function () {
-            console.log('update-not-available');
-        });
-        autoUpdater.on('update-downloaded', function (event, releaseNotes, releaseName, releaseDate, updateURL) {
-            console.log('update-downloaded' + ',' + event + ',' + releaseNotes +',' + releaseName + ',' + releaseDate + ',' +  updateURL);
-        });
-        autoUpdater.on('before-quit-for-update', function () {
-            console.log('before-quit-for-update');
-        });
-    }
     crashReporter.start({ companyName: 'YourCompany', submitURL: 'https://your-domain.com/url-to-submit', uploadToServer: true });
 }

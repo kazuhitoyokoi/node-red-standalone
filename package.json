@@ -6,7 +6,10 @@
     "appId": "com.electron.node-red",
     "productName": "Node-RED",
     "linux": {
-      "category": "Development"
+      "category": "Development",
+      "publish": [
+        "github"
+      ]
     },
     "mac": {
       "category": "public.app-category.developer-tools"
@@ -14,19 +17,24 @@
   },
   "scripts": {
     "start": "electron .",
+    "test": "mocha main_spec.js",
     "build": "node geticon.js && electron-builder .",
     "build-windows": "node geticon.js && electron-builder --windows",
     "build-linux": "node geticon.js && electron-builder --linux",
     "build-raspberrypi": "node geticon.js && electron-builder --linux --armv7l",
     "build-macos": "node geticon.js && electron-builder --macos",
-    "release": "node geticon.js && electron-builder . --publish always"
+    "release": "node geticon.js && electron-builder . --publish always -c.snap.publish=github"
   },
   "dependencies": {
     "@node-red-contrib-themes/midnight-red": "^1.2.1",
+    "electron-log": "^4.1.0",
     "minimist": "^1.2.5",
+    "mocha": "^7.1.1",
     "node-red": "^1.0.4",
     "node-red-contrib-aedes": "^0.3.1",
     "node-red-contrib-browser-utils": "0.0.9",
+    "node-red-contrib-flow-asserter": "^0.4.0",
+    "node-red-contrib-google-cloud": "0.0.14",
     "node-red-contrib-image-output": "^0.5.2",
     "node-red-contrib-iss-location": "^4.5.2",
     "node-red-contrib-model-asset-exchange": "^0.2.6",
@@ -51,15 +59,20 @@
     "node-red-node-ui-list": "^0.2.5",
     "node-red-node-ui-table": "^0.3.0",
     "node-red-node-ui-vega": "^0.1.2",
-    "npm": "^6.14.2"
+    "npm": "^6.14.2",
+    "superagent": "^5.2.2",
+    "update-electron-app": "^1.5.0"
   },
   "devDependencies": {
+    "should": "^13.2.3",
+    "chromedriver": "^80.0.1",
     "electron": "^8.1.1",
     "electron-builder": "^22.4.1",
     "electron-chromedriver": "^8.0.0",
+    "electron-mocha": "^8.2.1",
     "grunt": "^1.0.4",
     "puppeteer": "^2.1.1",
-    "webdriverio": "^5.21.0"
+    "webdriverio": "^4.14.4"
   },
   "description": "Standalone Node-RED",
   "keywords": [
