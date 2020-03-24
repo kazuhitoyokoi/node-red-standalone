@@ -6,5 +6,3 @@
 ## Ubuntu, Debian and Fedora with GUI
 - chmod +x Node-RED-0.0.1.AppImage
 - ./Node-RED-0.0.1.AppImage
-
-[Document](document.md)
