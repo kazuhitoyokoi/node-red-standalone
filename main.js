@@ -35,7 +35,7 @@ var win;
 var notifyUpdate = function () {
     var packageInfo = fs.readFileSync('./package.json');
     var packageVersion = JSON.parse(packageInfo).version;
-    var url = 'https://api.github.com/repos/node-red/node-red-nodegen/releases/latest';
+    var url = 'https://api.github.com/repos/kazuhitoyokoi/node-red-standalone/releases/latest';
     superagent.get(url).set('User-Agent', "Node-RED").end(function (err, res) {
         if (!err) {
             var tag_name = JSON.parse(res.text).tag_name;
