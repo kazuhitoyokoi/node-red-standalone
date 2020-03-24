@@ -11,7 +11,7 @@ install:
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 language: node_js
 node_js:
- - 12
+ - 10
 script:
  - npm install
  - travis_retry npm run release
