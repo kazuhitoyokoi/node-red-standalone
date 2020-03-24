@@ -7,9 +7,7 @@
     "productName": "Node-RED",
     "linux": {
       "category": "Development",
-      "publish": [
-        "github"
-      ]
+      "publish": [ "github" ]
     },
     "mac": {
       "category": "public.app-category.developer-tools"
