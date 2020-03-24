@@ -23,7 +23,7 @@
     "build-linux": "node geticon.js && electron-builder --linux",
     "build-raspberrypi": "node geticon.js && electron-builder --linux --armv7l",
     "build-macos": "node geticon.js && electron-builder --macos",
-    "release": "node geticon.js && electron-builder . --publish always -c.snap.publish=github"
+    "release": "node geticon.js && electron-builder . --publish always"
   },
   "dependencies": {
     "@node-red-contrib-themes/midnight-red": "^1.2.1",
