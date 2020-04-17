@@ -7,7 +7,9 @@
     "productName": "Node-RED",
     "linux": {
       "category": "Development",
-      "publish": [ "github" ]
+      "publish": [
+        "github"
+      ]
     },
     "mac": {
       "category": "public.app-category.developer-tools"
@@ -35,7 +37,9 @@
     "node-red-contrib-google-cloud": "0.0.14",
     "node-red-contrib-image-output": "^0.5.2",
     "node-red-contrib-iss-location": "^4.5.2",
+    "node-red-contrib-modbus": "^5.10.1",
     "node-red-contrib-model-asset-exchange": "^0.2.6",
+    "node-red-contrib-opcua": "^0.2.52",
     "node-red-contrib-web-worldmap": "^2.3.1",
     "node-red-dashboard": "^2.19.4",
     "node-red-node-base64": "^0.2.1",
